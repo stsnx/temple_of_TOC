@@ -28,17 +28,20 @@ class GetTempleAPIView(APIView):
             pattern = r'<li>.*</li>'
             result = re.findall(pattern,result[0] )
             result = re.sub('<.*?>','', '\n'.join(result))
-            pattern = r'วัด.* '
+            pattern = r'วัด.*'
             result = re.findall(pattern, result)
- 
-            result = re.sub(' (.*) ','','\n'.join(result))
+            result = re.sub(' .*','','\n'.join(result))
             print(result)
             temples = result.split('\n')
             for temple in temples:
                 all_temple_list.append(temple)
             print(all_temple_list)
+        all_temple_list_ex_dup = []
+        for temple in all_temple_list:
+            if temple not in all_temple_list_ex_dup:
+                all_temple_list_ex_dup.append(temple)
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="templev1.csv.csv"'
         writer = csv.writer(response, delimiter=' ')
-        writer.writerows([[temple.replace("\"",'').replace(" ",'')] for temple in all_temple_list])
+        writer.writerows([[temple.replace("\"",'').replace(" ",'')] for temple in all_temple_list_ex_dup])
         return response
