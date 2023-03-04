@@ -45,3 +45,8 @@ class GetTempleAPIView(APIView):
         writer = csv.writer(response, delimiter=' ')
         writer.writerows([[temple.replace("\"",'').replace(" ",'')] for temple in all_temple_list_ex_dup])
         return response
+
+        #ROY 1146
+        #RAN 35
+        #RAY 248
+        #YAL 50
